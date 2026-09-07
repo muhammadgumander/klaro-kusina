@@ -708,8 +708,8 @@ const recipes = [
   {
     name: "Kare-Kare",
     desc: "Oxtail in peanut sauce, usually served with a bagoong side.",
-    status: { pd:'caution', htn:'unsafe', chol:'unsafe', ckd:'unsafe' , uric:'unsafe'},
-    note: null,
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'unsafe', uric:'modified' },
+    note: "Use lean beef instead of oxtail, skip the bagoong side, and go lighter on the peanut sauce — this changes the richness but makes it workable for several conditions.",
     halal: true,
     emoji: "🥘",
     nutrition: { kcal:420, carbs:20, sugar:6 },
@@ -848,8 +848,8 @@ const recipes = [
   {
     name: "Sisig",
     desc: "Sizzling chopped pork — included so you know why it's not on this list.",
-    status: { pd:'safe', htn:'unsafe', chol:'unsafe', ckd:'unsafe', uric:'unsafe' },
-    note: null,
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'unsafe', uric:'modified' },
+    note: "A chicken or tofu sisig, made without the liver and with less mayo, is a real and common lighter version of this dish.",
     halal: false,
     emoji: "🍖",
     nutrition: { kcal:450, carbs:8, sugar:2 },
@@ -984,7 +984,369 @@ const recipes = [
     emoji: "🐟",
     nutrition: { kcal:180, carbs:1, sugar:0 },
     ingredients: ["4 pieces galunggong (mackerel scad)", "2 tbsp calamansi juice", "2 garlic cloves, minced", "Pepper to taste", "Salt (light)"]
+  }  ,
+  {
+    name: "Pancit Luglug",
+    desc: "Thick rice noodles in shrimp sauce, usually topped with chicharon and egg — a rich, occasional-treat dish.",
+    status: { pd:'modified', htn:'unsafe', chol:'modified', ckd:'unsafe', uric:'unsafe' },
+    note: "Skipping the chicharon topping helps with cholesterol, though the shrimp sauce keeps this difficult for sodium and uric acid regardless.",
+    halal: false,
+    emoji: "🍜",
+    nutrition: { kcal:380, carbs:45, sugar:3 },
+    ingredients: ["300g thick rice noodles (luglug)", "1/2 cup shrimp broth", "2 tbsp annatto oil", "Chicharon, crushed", "2 boiled eggs, sliced", "Cooked shrimp"]
+  },
+  {
+    name: "Rellenong Bangus",
+    desc: "Deboned milkfish stuffed with sautéed vegetables, baked instead of fried.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'caution', uric:'caution' },
+    note: "Bake instead of deep-frying, and keep the stuffing light on salt.",
+    halal: true,
+    emoji: "🐟",
+    nutrition: { kcal:280, carbs:10, sugar:2 },
+    ingredients: ["1 whole bangus, deboned", "1 carrot, diced", "1 potato, diced", "1/4 cup raisins", "1 onion, chopped", "1 egg", "Salt and pepper (light)"]
+  },
+  {
+    name: "Chicken Inasal",
+    desc: "Grilled chicken marinated in calamansi, annatto, and lemongrass.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'caution', uric:'caution' },
+    note: "Use skinless chicken, go light on the basting oil, and reduce the soy-calamansi dipping sauce.",
+    halal: true,
+    emoji: "🍗",
+    nutrition: { kcal:250, carbs:5, sugar:2 },
+    ingredients: ["500g chicken thigh, skinless", "1/4 cup calamansi juice", "2 tbsp annatto oil", "1 stalk lemongrass, pounded", "3 garlic cloves", "1 thumb ginger"]
+  },
+  {
+    name: "Pritong Galunggong",
+    desc: "Deep-fried mackerel scad — compare this to the grilled version already on this list to see how much the cooking method changes things.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "Pan-frying with minimal oil instead of deep-frying, and using less salt in the marinade, makes this noticeably lighter.",
+    halal: true,
+    emoji: "🐟",
+    nutrition: { kcal:320, carbs:2, sugar:0 },
+    ingredients: ["2 whole galunggong, cleaned", "Salt for marinating", "Oil for frying", "Vinegar-garlic dip (optional)"]
+  },
+  {
+    name: "Kinilaw",
+    desc: "Fresh fish cured in vinegar and calamansi — Filipino ceviche.",
+    status: { pd:'safe', htn:'modified', chol:'safe', ckd:'caution', uric:'caution' },
+    note: "Go light on the patis or salt — the vinegar and calamansi already carry most of the flavor.",
+    halal: true,
+    emoji: "🐟",
+    nutrition: { kcal:180, carbs:5, sugar:2 },
+    ingredients: ["300g fresh tanigue or tuna, cubed", "1/2 cup vinegar", "2 tbsp calamansi juice", "1 onion, sliced", "1 thumb ginger, sliced", "1 chili pepper"]
+  },
+  {
+    name: "Pancit Palabok",
+    desc: "Rice noodles in shrimp sauce with chicharon, egg, and smoked fish flakes — rich by design.",
+    status: { pd:'modified', htn:'unsafe', chol:'modified', ckd:'unsafe', uric:'unsafe' },
+    note: "Skipping the chicharon topping and using a lighter shrimp sauce helps with cholesterol, though the shrimp base keeps this difficult for sodium and uric acid either way.",
+    halal: false,
+    emoji: "🍜",
+    nutrition: { kcal:420, carbs:40, sugar:4 },
+    ingredients: ["300g rice noodles (bihon)", "1 cup shrimp sauce", "Chicharon, crushed", "2 boiled eggs, sliced", "Smoked fish flakes (tinapa)", "Spring onion, chopped"]
+  },
+  {
+    name: "Lechon Kawali",
+    desc: "Deep-fried pork belly until crispy — the fried counterpart to whole roasted lechon.",
+    status: { pd:'safe', htn:'unsafe', chol:'unsafe', ckd:'unsafe', uric:'unsafe' },
+    note: null,
+    halal: false,
+    emoji: "🥓",
+    nutrition: { kcal:450, carbs:2, sugar:0 },
+    ingredients: ["500g pork belly", "3 bay leaves", "1 tbsp whole peppercorns", "Salt", "Oil for deep-frying"]
+  },
+  {
+    name: "Manggang Hilaw at Bagoong",
+    desc: "Green mango with shrimp paste dip — a small portion goes a long way with the bagoong.",
+    status: { pd:'safe', htn:'unsafe', chol:'safe', ckd:'unsafe', uric:'caution' },
+    note: "Use a very small amount of bagoong, or swap in a salt-free chili-vinegar dip instead.",
+    halal: true,
+    emoji: "🥭",
+    nutrition: { kcal:80, carbs:15, sugar:8 },
+    ingredients: ["1 green mango, sliced", "2 tbsp bagoong alamang (shrimp paste)"]
+  },
+  {
+    name: "Paksiw na Lechon",
+    desc: "Leftover lechon simmered in vinegar and liver sauce — rich on top of already-rich.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'unsafe', uric:'modified' },
+    note: null,
+    halal: false,
+    emoji: "🍖",
+    nutrition: { kcal:400, carbs:15, sugar:8 },
+    ingredients: ["300g leftover lechon, chopped", "1/2 cup liver sauce", "1/4 cup vinegar", "2 bay leaves", "2 tbsp brown sugar"]
+  },
+  {
+    name: "Beef Tapa",
+    desc: "Cured, pan-fried beef strips — a breakfast staple where portion and marinade matter most.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "Use a leaner beef cut and go light on the soy sauce marinade — curing naturally adds sodium, so portion control matters most here.",
+    halal: true,
+    emoji: "🥩",
+    nutrition: { kcal:280, carbs:3, sugar:4 },
+    ingredients: ["300g lean beef, thinly sliced", "3 tbsp soy sauce (reduced)", "2 tbsp calamansi juice", "3 garlic cloves, minced", "1 tbsp brown sugar"]
+  },
+  {
+    name: "Crispy Pata",
+    desc: "Deep-fried whole pork leg — one of the richest dishes on this list.",
+    status: { pd:'safe', htn:'unsafe', chol:'modified', ckd:'unsafe', uric:'unsafe' },
+    note: "Baking or air-frying instead of deep-frying cuts some fat, though the cut itself stays fatty regardless of cooking method.",
+    halal: false,
+    emoji: "🍖",
+    nutrition: { kcal:520, carbs:2, sugar:0 },
+    ingredients: ["1 whole pork leg (pata)", "Salt and pepper", "3 bay leaves", "Oil for deep-frying"]
+  },
+  {
+    name: "Pork Barbecue",
+    desc: "Skewered grilled pork in a sweet-savory marinade.",
+    status: { pd:'modified', htn:'modified', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "Use a leaner pork cut, and reduce the soy sauce and banana ketchup in the marinade.",
+    halal: false,
+    emoji: "🍢",
+    nutrition: { kcal:300, carbs:12, sugar:9 },
+    ingredients: ["500g pork shoulder, cubed", "1/4 cup soy sauce (reduced)", "2 tbsp banana ketchup", "2 tbsp calamansi juice", "3 garlic cloves", "Bamboo skewers"]
+  },
+  {
+    name: "Binagoongang Baboy",
+    desc: "Pork simmered in shrimp paste, garlic, and vinegar — bagoong is the whole point, and the whole problem.",
+    status: { pd:'safe', htn:'unsafe', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "A leaner pork cut helps with cholesterol, though the bagoong itself is central to this dish and keeps sodium high regardless.",
+    halal: false,
+    emoji: "🍤",
+    nutrition: { kcal:380, carbs:5, sugar:3 },
+    ingredients: ["400g pork belly, cubed", "3 tbsp bagoong alamang", "4 garlic cloves", "1 onion, sliced", "2 tbsp vinegar", "2 chili peppers"]
+  },
+  {
+    name: "Embutido",
+    desc: "Filipino steamed meatloaf, lightened up without the cheese and hotdog chunks.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "Use lean ground pork or chicken, skip the cheese and hotdog chunks, and go light on added salt.",
+    halal: false,
+    emoji: "🍖",
+    nutrition: { kcal:260, carbs:8, sugar:4 },
+    ingredients: ["500g lean ground pork or chicken", "2 eggs", "1 carrot, diced", "1/4 cup raisins", "1 onion, chopped", "Breadcrumbs"]
+  },
+  {
+    name: "Inihaw na Liempo",
+    desc: "Grilled pork belly — grilling helps, but the cut itself stays fatty.",
+    status: { pd:'safe', htn:'modified', chol:'unsafe', ckd:'unsafe', uric:'caution' },
+    note: "Grilling instead of frying helps, but pork belly is still a fatty cut — a leaner cut like pork shoulder would fit cholesterol goals better.",
+    halal: false,
+    emoji: "🥩",
+    nutrition: { kcal:350, carbs:3, sugar:3 },
+    ingredients: ["500g pork belly, sliced", "1/4 cup soy sauce (reduced)", "2 tbsp calamansi juice", "3 garlic cloves", "Pepper to taste"]
+  },
+  {
+    name: "Fried Lumpia (Lumpiang Shanghai)",
+    desc: "Deep-fried spring rolls with a ground meat filling — a party staple that's hard to make truly light.",
+    status: { pd:'modified', htn:'modified', chol:'unsafe', ckd:'unsafe', uric:'caution' },
+    note: "Baking or air-frying instead of deep-frying cuts a lot of the fat, and a leaner ground meat filling helps — though frying itself remains the main issue for cholesterol.",
+    halal: false,
+    emoji: "🥟",
+    nutrition: { kcal:320, carbs:20, sugar:2 },
+    ingredients: ["500g ground pork", "1 carrot, minced", "1 onion, minced", "2 garlic cloves", "Lumpia wrappers", "Oil for frying"]
+  },
+  {
+    name: "Lengua",
+    desc: "Braised ox tongue — an organ-adjacent cut, tagged honestly.",
+    status: { pd:'safe', htn:'caution', chol:'unsafe', ckd:'unsafe', uric:'unsafe' },
+    note: null,
+    halal: true,
+    emoji: "👅",
+    nutrition: { kcal:320, carbs:10, sugar:4 },
+    ingredients: ["500g beef tongue", "1/2 cup mushroom or tomato sauce", "1 onion, chopped", "2 garlic cloves", "1 carrot, sliced"]
+  },
+  {
+    name: "Pork Tocino",
+    desc: "Cured, sweetened pork — a breakfast staple that's difficult for both blood sugar and blood pressure.",
+    status: { pd:'unsafe', htn:'unsafe', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "A leaner cut helps with cholesterol, but the curing process itself needs the sugar and salt to work — there's not much room to fix the sugar and sodium load without it no longer being tocino.",
+    halal: false,
+    emoji: "🥓",
+    nutrition: { kcal:280, carbs:12, sugar:10 },
+    ingredients: ["500g pork shoulder, sliced", "1/4 cup brown sugar", "3 tbsp soy sauce", "3 garlic cloves", "1 tsp annatto powder"]
+  },
+  {
+    name: "Ukoy",
+    desc: "Shrimp and vegetable fritters, deep-fried.",
+    status: { pd:'modified', htn:'modified', chol:'unsafe', ckd:'unsafe', uric:'unsafe' },
+    note: "Baking or air-frying instead of deep-frying reduces some fat, though shrimp itself remains a concern for cholesterol and uric acid.",
+    halal: true,
+    emoji: "🦐",
+    nutrition: { kcal:250, carbs:18, sugar:2 },
+    ingredients: ["200g small shrimp, whole", "1 cup bean sprouts", "1/2 cup flour", "1 sweet potato, julienned", "1 egg", "Oil for frying"]
+  },
+  {
+    name: "Batchoy",
+    desc: "Noodle soup with pork offal and chicharon — a beloved dish, but a heavy one across nearly every condition here.",
+    status: { pd:'modified', htn:'unsafe', chol:'modified', ckd:'unsafe', uric:'modified' },
+    note: "Using lean beef or chicken instead of pork offal, and skipping the chicharon topping, removes most of the cholesterol and purine load — though the broth itself stays rich.",
+    halal: false,
+    emoji: "🍜",
+    nutrition: { kcal:380, carbs:30, sugar:2 },
+    ingredients: ["300g fresh egg noodles", "200g pork liver and intestines", "4 cups pork or beef broth", "Chicharon, crushed", "1 egg", "Spring onion"]
+  },
+  {
+    name: "Adobong Pusit",
+    desc: "Squid adobo — the sauce can be lightened, but squid itself carries a naturally high cholesterol load.",
+    status: { pd:'safe', htn:'modified', chol:'unsafe', ckd:'caution', uric:'unsafe' },
+    note: "Cutting the soy sauce helps with sodium, but squid itself is naturally high in cholesterol regardless of preparation — best in smaller portions if you're managing cholesterol or uric acid.",
+    halal: true,
+    emoji: "🦑",
+    nutrition: { kcal:200, carbs:5, sugar:1 },
+    ingredients: ["500g squid, cleaned", "3 tbsp soy sauce (reduced)", "1/4 cup vinegar", "4 garlic cloves", "1 onion, sliced"]
+  },
+  {
+    name: "Ginataang Langka",
+    desc: "Young jackfruit in coconut milk, kept vegetable-only.",
+    status: { pd:'safe', htn:'modified', chol:'caution', ckd:'unsafe', uric:'safe' },
+    note: "Use light coconut milk and skip any added pork or dried fish for a fully plant-based version.",
+    halal: true,
+    emoji: "🥥",
+    nutrition: { kcal:180, carbs:16, sugar:6 },
+    ingredients: ["2 cups young jackfruit, sliced", "1 cup light coconut milk", "1 onion, chopped", "2 garlic cloves", "1 thumb ginger"]
+  },
+  {
+    name: "Afritada",
+    desc: "Chicken in tomato sauce with potatoes and bell pepper, made without pork.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "Use skinless chicken instead of pork, and go light on added salt — the tomato sauce already carries good flavor.",
+    halal: true,
+    emoji: "🍅",
+    nutrition: { kcal:260, carbs:18, sugar:5 },
+    ingredients: ["500g chicken, skinless, cut up", "2 potatoes, diced", "1 carrot, diced", "1 bell pepper, sliced", "1/2 cup tomato sauce", "3 garlic cloves"]
+  },
+  {
+    name: "Tokwat Baboy",
+    desc: "Boiled pork ear and belly with fried tofu, in a vinegar-soy dip — a classic pulutan.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'unsafe', uric:'modified' },
+    note: "Using more tofu and less pork, plus a lighter hand with the soy-vinegar dip, brings this closer to workable for several conditions.",
+    halal: false,
+    emoji: "🥢",
+    nutrition: { kcal:280, carbs:5, sugar:2 },
+    ingredients: ["300g pork ear and belly, boiled", "200g firm tofu, fried", "1/4 cup soy sauce", "2 tbsp vinegar", "1 onion, chopped"]
+  },
+  {
+    name: "Humba",
+    desc: "Visayan sweet braised pork — the sweetness and fat content make this a tough one across most conditions.",
+    status: { pd:'unsafe', htn:'modified', chol:'unsafe', ckd:'unsafe', uric:'caution' },
+    note: "A leaner cut and less sugar in the braise would help, but the traditional sweetness and fat content make this a difficult one for diabetes and cholesterol either way.",
+    halal: false,
+    emoji: "🍖",
+    nutrition: { kcal:380, carbs:22, sugar:15 },
+    ingredients: ["500g pork belly, cubed", "1/4 cup brown sugar", "3 tbsp soy sauce (reduced)", "1/4 cup black beans", "1 banana blossom, sliced", "3 garlic cloves"]
+  },
+  {
+    name: "Pinapaitang Baka",
+    desc: "Bitter beef soup made with bile — a strong, traditional dish tagged honestly.",
+    status: { pd:'safe', htn:'caution', chol:'unsafe', ckd:'unsafe', uric:'unsafe' },
+    note: null,
+    halal: true,
+    emoji: "🍲",
+    nutrition: { kcal:250, carbs:5, sugar:1 },
+    ingredients: ["500g beef offal (tripe, intestines)", "Bile (pait) to taste", "1 thumb ginger, sliced", "1 onion, chopped", "1 chili pepper"]
+  },
+  {
+    name: "Pochero",
+    desc: "Beef stew with saba banana and vegetables, made without the chorizo.",
+    status: { pd:'modified', htn:'modified', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "Skip the chorizo or sausage and use a lean beef cut — the vegetables and broth already carry plenty of flavor.",
+    halal: true,
+    emoji: "🍲",
+    nutrition: { kcal:300, carbs:25, sugar:8 },
+    ingredients: ["400g lean beef, cubed", "2 saba bananas, sliced", "1 cabbage wedge", "2 potatoes, diced", "1/2 cup tomato sauce", "1 onion, chopped"]
+  },
+  {
+    name: "Pancit Molo",
+    desc: "Filipino wonton soup, made with a chicken filling instead of pork.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "Use ground chicken instead of pork for the filling, and keep the broth lightly salted.",
+    halal: true,
+    emoji: "🥟",
+    nutrition: { kcal:220, carbs:20, sugar:2 },
+    ingredients: ["300g ground chicken", "30 wonton wrappers", "4 cups chicken broth", "2 garlic cloves", "1 spring onion, chopped"]
+  },
+  {
+    name: "Chicharon Bulaklak",
+    desc: "Deep-fried pork mesentery — essentially fried fat, tagged as honestly as possible.",
+    status: { pd:'safe', htn:'unsafe', chol:'unsafe', ckd:'unsafe', uric:'unsafe' },
+    note: null,
+    halal: false,
+    emoji: "🍤",
+    nutrition: { kcal:550, carbs:0, sugar:0 },
+    ingredients: ["500g pork mesentery (bulaklak)", "Salt", "Oil for deep-frying"]
+  },
+  {
+    name: "Tinapang Isda",
+    desc: "Smoked fish — the curing process itself is what keeps the sodium high, even cooked simply afterward.",
+    status: { pd:'safe', htn:'unsafe', chol:'caution', ckd:'unsafe', uric:'caution' },
+    note: "The smoking and curing process is what drives the sodium up — even a light hand in the pan afterward won't offset that much, so this is mainly a concern for blood pressure and kidney health.",
+    halal: true,
+    emoji: "🐟",
+    nutrition: { kcal:220, carbs:2, sugar:1 },
+    ingredients: ["2 whole smoked fish (tinapa)", "1 tbsp cooking oil", "Vinegar dip (optional)"]
+  }  ,
+  {
+    name: "Ginisang Sayote at Itlog",
+    desc: "Sautéed chayote with egg — chayote is one of the lower-potassium vegetables, making this a genuinely kidney-friendly staple.",
+    status: { pd:'safe', htn:'safe', chol:'modified', ckd:'safe', uric:'safe' },
+    note: "Use egg whites instead of whole egg if you're also watching cholesterol closely.",
+    halal: true,
+    emoji: "🥒",
+    nutrition: { kcal:120, carbs:8, sugar:3 },
+    ingredients: ["2 chayote (sayote), sliced", "2 eggs", "2 garlic cloves, minced", "1 onion, chopped", "1 tsp cooking oil"]
+  },
+  {
+    name: "Steamed Upo with Garlic Sauce",
+    desc: "Bottle gourd, steamed simply — mostly water, very low in potassium and sodium.",
+    status: { pd:'safe', htn:'safe', chol:'safe', ckd:'safe', uric:'safe' },
+    note: null,
+    halal: true,
+    emoji: "🥬",
+    nutrition: { kcal:70, carbs:9, sugar:4 },
+    ingredients: ["1 upo (bottle gourd), sliced", "3 garlic cloves, minced", "1 tbsp olive oil", "Pepper to taste"]
+  },
+  {
+    name: "Chicken and Cabbage Soup",
+    desc: "A simple, unsalted soup built around two kidney-friendly staples: cabbage and portion-controlled chicken.",
+    status: { pd:'safe', htn:'safe', chol:'safe', ckd:'safe', uric:'caution' },
+    note: null,
+    halal: true,
+    emoji: "🍲",
+    nutrition: { kcal:180, carbs:8, sugar:2 },
+    ingredients: ["150g chicken breast, skinless", "2 cups cabbage, chopped", "2 garlic cloves", "1 onion, chopped", "4 cups water", "Pepper to taste"]
+  },
+  {
+    name: "Ginisang Patola with Tofu",
+    desc: "Sponge gourd sautéed with tofu — another naturally low-potassium vegetable choice.",
+    status: { pd:'safe', htn:'safe', chol:'safe', ckd:'safe', uric:'safe' },
+    note: null,
+    halal: true,
+    emoji: "🥒",
+    nutrition: { kcal:110, carbs:9, sugar:3 },
+    ingredients: ["2 patola (sponge gourd), sliced", "200g firm tofu, cubed", "2 garlic cloves", "1 onion, chopped", "1 tsp cooking oil"]
+  },
+  {
+    name: "Boiled Egg with Steamed Green Beans",
+    desc: "About as simple as it gets — a controlled-portion, kidney-friendly plate.",
+    status: { pd:'safe', htn:'safe', chol:'modified', ckd:'safe', uric:'safe' },
+    note: "Stick to one whole egg (or use extra whites) if you're also watching cholesterol.",
+    halal: true,
+    emoji: "🥚",
+    nutrition: { kcal:150, carbs:10, sugar:3 },
+    ingredients: ["2 eggs, boiled", "1 cup green beans, steamed", "Pepper to taste", "1 tsp olive oil (optional)"]
+  },
+  {
+    name: "Ginisang Sayote with Ground Chicken",
+    desc: "Chayote sautéed with lean ground chicken — a more filling, protein-forward version.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'safe', uric:'caution' },
+    note: "Use lean ground chicken instead of pork, and go light on added salt.",
+    halal: true,
+    emoji: "🍗",
+    nutrition: { kcal:200, carbs:8, sugar:3 },
+    ingredients: ["2 chayote (sayote), diced", "150g ground chicken, lean", "2 garlic cloves", "1 onion, chopped", "1 tsp cooking oil"]
   }
+
+
 ];
 
 const pillsEl = document.getElementById('pills');
