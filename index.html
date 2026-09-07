@@ -255,13 +255,13 @@
     color: var(--brick);
     font-weight: 700;
   }
-  .avoid-item{
+  .avoid-line{
     font-size: 14px;
-    margin-bottom: 8px;
-    line-height: 1.5;
+    line-height: 1.6;
+    margin-bottom: 6px;
   }
-  .avoid-item:last-child{ margin-bottom: 0; }
-  .avoid-item strong{ color: var(--ink); }
+  .avoid-line:last-child{ margin-bottom: 0; }
+  .avoid-line strong{ color: var(--ink); }
   .transition-line{
     display: none;
     font-family: 'Fraunces', serif;
@@ -314,6 +314,73 @@
   .level-tag.level-low{ background: var(--sage-soft); color: #3C4E36; }
   .level-tag.level-moderate{ background: #F1E4C6; color: #6B4F17; }
   .level-tag.level-high{ background: #E4E0D4; color: #5B5847; }
+
+
+  .search-box{
+    margin-bottom: 24px;
+  }
+  .search-input{
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 100px;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .search-input:focus{
+    outline: none;
+    border-color: var(--sage);
+  }
+  .status-tag{
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .status-tag.status-safe{ background: var(--sage-soft); color: #3C4E36; }
+  .status-tag.status-modified{ background: #F1E4C6; color: #6B4F17; }
+  .status-tag.status-caution{ background: #E4E0D4; color: #5B5847; }
+  .status-tag.status-unsafe{ background: var(--brick-soft); color: #7A2E1D; }
+  .search-result{
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: var(--paper);
+  }
+  .search-result-statuses{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .search-empty{
+    padding: 32px 0;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--line);
+  }
+  .search-empty strong{ color: var(--ink); }
+  .recipe-subtitle{
+    font-size: 13.5px;
+    color: var(--brick);
+    margin: 2px 0 0;
+    padding-left: 52px;
+  }
+  .full-profile{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .not-found-box{
+    padding: 32px 0;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--line);
+  }
+  .not-found-box strong{ color: var(--ink); }
 
   footer{
     text-align: left;
@@ -381,12 +448,16 @@
     </div>
   </div>
 
-  <p style="font-size:13px; color: var(--ink-soft); margin: -10px 0 28px; padding-top: 10px; border-top: 1px solid var(--line);">
-    More dishes added every week — <strong style="color: var(--ink);">tell me what's missing</strong> and I'll add it.
+  <p style="font-size:13px; color: var(--ink-soft); margin: -10px 0 20px; padding-top: 10px; border-top: 1px solid var(--line);">
+    More dishes added regularly — <strong style="color: var(--ink);">tell me what's missing</strong> and I'll add it.
   </p>
 
+  <div class="search-box">
+    <input type="text" class="search-input" id="search-input" placeholder="Search a dish — e.g. Sisig, Adobo, Lechon">
+  </div>
+
   <div class="avoid-box" id="avoid-box">
-    <h4>Worth going easy on</h4>
+    <h4>Food Guide</h4>
     <div id="avoid-list"></div>
   </div>
 
@@ -405,6 +476,8 @@
 
   <footer>
     Recipes are a starting point for everyday planning, not medical advice. Diabetics on insulin or with strict carb targets, and anyone with CKD, should confirm portions with their doctor or dietitian — this app tags dishes at the recipe level, not by exact gram counts.
+    <br><br>
+    This is a growing list, not a complete one — a dish not appearing here means it hasn't been reviewed yet, not that it's been checked and found unsafe.
   </footer>
 
 </div>
@@ -414,24 +487,24 @@ const CONDITION_LABEL = { pd: 'Pre-diabetes / Diabetes', htn: 'Hypertension / St
 
 const AVOID_NOTES = {
   pd: {
-    avoid: "Go easy on sugary drinks, candies, pastries, and big portions of white rice or refined bread — these raise blood sugar fastest.",
-    instead: "Look for high-fiber vegetables, whole grains in modest portions, and lean protein to help slow sugar absorption."
+    limit: ["sugary drinks", "candies & pastries", "large rice portions", "white bread"],
+    choose: ["vegetables", "whole grains (small portions)", "lean protein"]
   },
   htn: {
-    avoid: "Watch salty seasonings like patis, bagoong, and soy sauce, plus canned, cured, or processed meats — the main sodium sources in Filipino cooking.",
-    instead: "Look for garlic, onion, ginger, and calamansi for flavor instead of salt-heavy seasonings."
+    limit: ["patis, bagoong, soy sauce", "canned & cured meats"],
+    choose: ["garlic, onion, ginger", "calamansi for flavor"]
   },
   chol: {
-    avoid: "Limit fried food, fatty cuts of pork or beef, chicken skin, and organ meats — these carry the most saturated fat.",
-    instead: "Look for grilled or steamed dishes, fish, and cuts with visible fat trimmed off."
+    limit: ["fried food", "fatty pork/beef", "chicken skin", "organ meats"],
+    choose: ["grilled or steamed dishes", "fish"]
   },
   ckd: {
-    avoid: "Be careful with high-potassium foods like banana and leafy greens in large amounts, plus added salt and processed foods.",
-    instead: "Look for cabbage, cauliflower, white rice, and egg whites — generally lower in potassium and phosphorus."
+    limit: ["banana", "leafy greens (large amounts)", "added salt", "processed food"],
+    choose: ["cabbage, cauliflower", "white rice", "egg whites"]
   },
   uric: {
-    avoid: "Limit organ meats, red meat, bone marrow, and seafood like sardines or shrimp paste, along with alcohol and sugary drinks.",
-    instead: "Look for vegetables, tofu, and legumes as your main protein sources instead of red meat or seafood."
+    limit: ["organ meats", "red meat", "bone marrow", "seafood (sardines, shrimp paste)", "alcohol"],
+    choose: ["vegetables", "tofu", "legumes"]
   }
 };
 
@@ -701,6 +774,216 @@ const recipes = [
     emoji: "🥒",
     nutrition: { kcal:90, carbs:18, sugar:14 },
     ingredients: ["1 apple, diced", "1 cucumber, diced", "1 tbsp lemon juice", "1 tsp olive oil", "Mint leaves (optional)"]
+  }  ,
+  {
+    name: "Arroz Caldo",
+    desc: "Chicken ginger rice porridge — a breakfast staple, lightened up.",
+    status: { pd:'modified', htn:'modified', chol:'modified', ckd:'modified', uric:'caution' },
+    note: "Use skinless chicken, cut the patis in half, and keep the rice portion moderate — the ginger and toasted garlic carry most of the flavor.",
+    halal: true,
+    emoji: "🥣",
+    nutrition: { kcal:260, carbs:38, sugar:1 },
+    ingredients: ["1/2 cup rice", "150g chicken thigh, skinless", "2 tbsp ginger, sliced", "1 onion, chopped", "2 garlic cloves", "1 tbsp patis (reduced)", "4 cups water", "Calamansi and scallions to serve"]
+  },
+  {
+    name: "Bistek Tagalog",
+    desc: "Filipino beef steak in calamansi and onions.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'caution', uric:'caution' },
+    note: "Use a lean cut and trim visible fat, and cut the soy sauce by half — let the calamansi and extra onions carry the flavor.",
+    halal: true,
+    emoji: "🥩",
+    nutrition: { kcal:280, carbs:8, sugar:3 },
+    ingredients: ["250g lean beef sirloin, thinly sliced", "2 tbsp soy sauce (reduced)", "3 tbsp calamansi juice", "1 onion, sliced into rings", "2 garlic cloves", "Pepper to taste"]
+  },
+  {
+    name: "Ginataang Kalabasa at Sitaw",
+    desc: "Squash and string beans simmered in coconut milk.",
+    status: { pd:'safe', htn:'safe', chol:'modified', ckd:'caution', uric:'safe' },
+    note: "Use light or diluted coconut milk instead of the full-fat version to keep the saturated fat down.",
+    halal: true,
+    emoji: "🎃",
+    nutrition: { kcal:180, carbs:16, sugar:5 },
+    ingredients: ["2 cups squash (kalabasa), cubed", "1 cup string beans (sitaw), cut", "1 cup light coconut milk", "1 onion", "2 garlic cloves", "Pepper to taste"]
+  },
+  {
+    name: "Paksiw na Bangus",
+    desc: "Milkfish simmered in vinegar and ginger.",
+    status: { pd:'safe', htn:'modified', chol:'safe', ckd:'caution', uric:'caution' },
+    note: "Skip the bagoong side dish, or use just a small amount — the vinegar and ginger already carry plenty of flavor.",
+    halal: true,
+    emoji: "🐟",
+    nutrition: { kcal:220, carbs:6, sugar:2 },
+    ingredients: ["1 whole bangus (milkfish)", "1/2 cup vinegar", "1 thumb ginger, sliced", "1 onion", "2 garlic cloves", "1 eggplant, sliced", "Whole peppercorns"]
+  },
+  {
+    name: "Ginisang Ampalaya with Egg",
+    desc: "Sautéed bitter gourd — a genuinely underrated blood-sugar-friendly vegetable.",
+    status: { pd:'safe', htn:'safe', chol:'modified', ckd:'caution', uric:'safe' },
+    note: "Use egg whites instead of whole egg to keep this cholesterol-friendly, and go light on the oil.",
+    halal: true,
+    emoji: "🥗",
+    nutrition: { kcal:140, carbs:8, sugar:3 },
+    ingredients: ["2 cups bitter gourd (ampalaya), thinly sliced", "3 egg whites", "1 onion", "2 garlic cloves", "1 tomato", "1 tsp cooking oil"]
+  },
+  {
+    name: "Chicken Chopsuey",
+    desc: "Mixed vegetables in a light sauce — a good way to load up on variety in one dish.",
+    status: { pd:'safe', htn:'safe', chol:'safe', ckd:'caution', uric:'modified' },
+    note: "Use lean chicken breast instead of pork or shrimp, and keep the sauce light — a little cornstarch and low-sodium soy sauce goes a long way.",
+    halal: true,
+    emoji: "🥦",
+    nutrition: { kcal:170, carbs:14, sugar:4 },
+    ingredients: ["100g chicken breast, thinly sliced", "1 cup cauliflower", "1 cup cabbage", "1 carrot, sliced", "1/2 cup snow peas", "1 tsp low-sodium soy sauce", "1 tsp cornstarch"]
+  },
+  {
+    name: "Lumpiang Sariwa",
+    desc: "Fresh (not fried) spring rolls, packed with vegetables.",
+    status: { pd:'safe', htn:'modified', chol:'safe', ckd:'caution', uric:'safe' },
+    note: "Go easy on the sweet peanut sauce, or serve it on the side instead of drizzled on top — that's where most of the sugar and salt hide.",
+    halal: true,
+    emoji: "🌯",
+    nutrition: { kcal:190, carbs:22, sugar:6 },
+    ingredients: ["4 fresh lumpia wrappers", "1 cup jicama (singkamas), julienned", "1 cup carrots, julienned", "1 cup green beans", "100g tofu, sliced thin", "Light peanut sauce, served on the side"]
+  },
+  {
+    name: "Sisig",
+    desc: "Sizzling chopped pork — included so you know why it's not on this list.",
+    status: { pd:'safe', htn:'unsafe', chol:'unsafe', ckd:'unsafe', uric:'unsafe' },
+    note: null,
+    halal: false,
+    emoji: "🍖",
+    nutrition: { kcal:450, carbs:8, sugar:2 },
+    ingredients: ["500g pork face/liver, boiled and grilled", "1 onion, chopped", "3 chili peppers", "Calamansi juice", "3 tbsp mayonnaise", "Pepper to taste"]
+  },
+  {
+    name: "Dinuguan",
+    desc: "Pork blood stew — another dish worth naming rather than quietly leaving out.",
+    status: { pd:'safe', htn:'unsafe', chol:'unsafe', ckd:'unsafe', uric:'unsafe' },
+    note: null,
+    halal: false,
+    emoji: "🍲",
+    nutrition: { kcal:380, carbs:10, sugar:3 },
+    ingredients: ["500g pork belly, cubed", "2 cups pork blood", "1/2 cup vinegar", "4 garlic cloves", "1 onion", "2 chili peppers", "Bay leaves"]
+  },
+  {
+    name: "Ginataang Tilapia",
+    desc: "Fish simmered in coconut milk with chili leaves.",
+    status: { pd:'safe', htn:'modified', chol:'caution', ckd:'caution', uric:'caution' },
+    note: "Use light coconut milk and go easy on added salt or patis.",
+    halal: true,
+    emoji: "🐟",
+    nutrition: { kcal:260, carbs:8, sugar:3 },
+    ingredients: ["1 whole tilapia", "1 cup light coconut milk", "1 thumb ginger", "1 onion", "2 cups chili leaves or spinach", "1 tbsp patis (reduced)"]
+  },
+  {
+    name: "Sinigang na Baboy",
+    desc: "Pork sour soup — the same tamarind broth as sinigang na isda, using pork instead of fish.",
+    status: { pd:'safe', htn:'modified', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "Use a leaner pork cut and trim visible fat, and go light on the patis or sinigang mix.",
+    halal: false,
+    emoji: "🍲",
+    nutrition: { kcal:250, carbs:12, sugar:4 },
+    ingredients: ["300g pork ribs, lean cut", "1 pack sinigang mix or fresh sampalok", "1 radish, sliced", "1 eggplant, sliced", "2 cups kangkong leaves", "1 tbsp patis (reduced)", "5 cups water"]
+  },
+  {
+    name: "Pancit Bihon",
+    desc: "Stir-fried rice noodles with chicken and vegetables — a party staple, lightened up.",
+    status: { pd:'modified', htn:'modified', chol:'modified', ckd:'caution', uric:'caution' },
+    note: "Keep the noodle portion moderate and load up on cabbage and carrots, and use half the usual soy sauce.",
+    halal: true,
+    emoji: "🍜",
+    nutrition: { kcal:320, carbs:45, sugar:3 },
+    ingredients: ["200g rice noodles (bihon)", "150g chicken breast, sliced", "1 cup cabbage, shredded", "1 carrot, julienned", "2 tbsp soy sauce (reduced)", "2 garlic cloves, minced", "1 onion, sliced"]
+  },
+  {
+    name: "Menudo",
+    desc: "Pork and liver stew in tomato sauce with potatoes and carrots.",
+    status: { pd:'safe', htn:'modified', chol:'unsafe', ckd:'caution', uric:'unsafe' },
+    note: "Even with less added salt, the liver keeps this high in cholesterol and purine — best kept as an occasional dish, not a regular one, for cholesterol or gout.",
+    halal: false,
+    emoji: "🍖",
+    nutrition: { kcal:280, carbs:15, sugar:5 },
+    ingredients: ["300g pork, cubed", "100g pork liver, cubed", "1 potato, cubed", "1 carrot, sliced", "1 cup tomato sauce", "1 bell pepper, sliced", "2 garlic cloves, 1 onion"]
+  },
+  {
+    name: "Bicol Express",
+    desc: "Pork simmered in coconut milk and chili — rich, spicy, and coconut-forward.",
+    status: { pd:'safe', htn:'modified', chol:'unsafe', ckd:'caution', uric:'caution' },
+    note: "Reducing the bagoong helps the sodium side, but the coconut milk and pork fat still make this a heavy dish for cholesterol.",
+    halal: false,
+    emoji: "🌶️",
+    nutrition: { kcal:350, carbs:8, sugar:3 },
+    ingredients: ["300g pork belly, sliced", "1 cup coconut milk", "3-5 chili peppers, sliced", "1 tbsp bagoong (reduced)", "3 garlic cloves", "1 onion", "1 thumb ginger"]
+  },
+  {
+    name: "Tortang Talong",
+    desc: "Grilled eggplant dipped in egg and pan-fried — simple, and easy to make lighter.",
+    status: { pd:'safe', htn:'safe', chol:'modified', ckd:'caution', uric:'safe' },
+    note: "Use mostly egg whites with just a little whole egg for binding, to cut the cholesterol from the yolks.",
+    halal: true,
+    emoji: "🍆",
+    nutrition: { kcal:150, carbs:8, sugar:3 },
+    ingredients: ["2 eggplants, grilled and flattened", "3 egg whites, 1 whole egg", "Pepper to taste", "1 tsp cooking oil", "Tomato, sliced (side)"]
+  },
+  {
+    name: "Laing",
+    desc: "Dried taro leaves simmered in coconut milk and chili — rich, earthy, and iconic to Bicol.",
+    status: { pd:'safe', htn:'modified', chol:'unsafe', ckd:'unsafe', uric:'caution' },
+    note: "Reducing the bagoong helps with sodium, but taro leaves are naturally high in potassium and the coconut milk keeps this heavy for cholesterol — best in small, occasional portions for those conditions.",
+    halal: true,
+    emoji: "🥬",
+    nutrition: { kcal:280, carbs:10, sugar:3 },
+    ingredients: ["2 cups dried taro leaves", "1 cup coconut milk", "3-5 chili peppers", "1 tbsp bagoong (reduced)", "2 garlic cloves", "1 thumb ginger", "Shrimp (optional)"]
+  },
+  {
+    name: "Caldereta",
+    desc: "Beef stew in tomato-liver sauce with potatoes, carrots, and cheese.",
+    status: { pd:'safe', htn:'modified', chol:'unsafe', ckd:'caution', uric:'unsafe' },
+    note: "Even with less added salt, the liver spread and beef keep this high in cholesterol and purine — an occasional dish rather than a regular one for those conditions.",
+    halal: false,
+    emoji: "🍛",
+    nutrition: { kcal:380, carbs:18, sugar:6 },
+    ingredients: ["500g beef chunks", "1 potato, cubed", "1 carrot, sliced", "1 bell pepper, sliced", "1 cup tomato sauce", "2 tbsp liver spread", "1/4 cup cheese, grated", "Olives (optional)"]
+  },
+  {
+    name: "Sinigang na Bangus",
+    desc: "Milkfish in sour tamarind broth — a lighter take on sinigang.",
+    status: { pd:'safe', htn:'modified', chol:'safe', ckd:'unsafe', uric:'caution' },
+    note: "Go light on the patis or sinigang mix — the natural sourness carries most of the flavor already.",
+    halal: true,
+    emoji: "🍲",
+    nutrition: { kcal:200, carbs:12, sugar:4 },
+    ingredients: ["500g bangus (milkfish)", "1 pack sinigang mix or fresh sampalok", "1 radish, sliced", "1 eggplant, sliced", "2 cups kangkong leaves", "1 tbsp patis (reduced)", "4 cups water"]
+  },
+  {
+    name: "Lechon",
+    desc: "Whole roasted pig with crackling skin — a fiesta centerpiece, included so you know why it's not an everyday dish.",
+    status: { pd:'safe', htn:'unsafe', chol:'unsafe', ckd:'unsafe', uric:'unsafe' },
+    note: null,
+    halal: false,
+    emoji: "🐖",
+    nutrition: { kcal:500, carbs:2, sugar:1 },
+    ingredients: ["Whole pork, roasted", "Lemongrass stalks", "Garlic", "Salt", "Liver sauce (side)"]
+  },
+  {
+    name: "Daing na Bangus",
+    desc: "Vinegar-marinated milkfish, pan-fried until crisp.",
+    status: { pd:'safe', htn:'unsafe', chol:'modified', ckd:'unsafe', uric:'caution' },
+    note: "Traditional daing is heavily salted as part of the curing process — this one's best kept occasional if you're watching sodium closely; pan-frying in a little oil instead of deep-frying helps the cholesterol side.",
+    halal: true,
+    emoji: "🐟",
+    nutrition: { kcal:260, carbs:3, sugar:0 },
+    ingredients: ["1 whole bangus (milkfish), butterflied", "3 tbsp vinegar", "3 garlic cloves, crushed", "1 tsp salt (reduced)", "Pepper to taste", "1 tbsp oil for pan-frying"]
+  },
+  {
+    name: "Inihaw na Galunggong",
+    desc: "Grilled mackerel scad — an everyday, budget-friendly grilled fish.",
+    status: { pd:'safe', htn:'modified', chol:'safe', ckd:'caution', uric:'caution' },
+    note: "Use a calamansi-and-pepper marinade instead of a salt-heavy one.",
+    halal: true,
+    emoji: "🐟",
+    nutrition: { kcal:180, carbs:1, sugar:0 },
+    ingredients: ["4 pieces galunggong (mackerel scad)", "2 tbsp calamansi juice", "2 garlic cloves, minced", "Pepper to taste", "Salt (light)"]
   }
 ];
 
@@ -711,6 +994,7 @@ const metaEl = document.getElementById('results-meta');
 const countEl = document.getElementById('results-count');
 
 let selected = new Set();
+let searchQuery = '';
 
 pillsEl.querySelectorAll('.pill').forEach(pill => {
   pill.addEventListener('click', (e) => {
@@ -743,6 +1027,66 @@ function passesCondition(recipe, cond) {
   return s === 'safe' || s === 'modified';
 }
 
+function renderSearchMode() {
+  const matches = recipes.filter(r =>
+    r.name.toLowerCase().includes(searchQuery)
+  );
+
+  if (matches.length === 0) {
+    listEl.innerHTML = `<div class="search-empty">
+      We haven't reviewed <strong>"${searchQuery}"</strong> yet — that doesn't mean it's unsafe, we just haven't gotten to it. Message me to suggest it and I'll add it soon.
+    </div>`;
+    return;
+  }
+
+  const healthConds = [...selected].filter(c => c !== 'halal');
+  const statusLabel = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+  // If the person has conditions selected, only show status for those —
+  // consistent with how the rest of the app never shows unrelated info.
+  // With nothing selected, show the full breakdown, since there's no
+  // context to narrow against.
+  const condsToShow = healthConds.length > 0 ? healthConds : ['pd','htn','chol','ckd','uric'];
+
+  listEl.innerHTML = matches.map(r => {
+    const statusChips = condsToShow.map(c => {
+      const s = r.status[c];
+      return `<span class="status-tag status-${s}">${CONDITION_LABEL[c]}: ${statusLabel(s)}</span>`;
+    }).join('');
+    const halalChip = selected.has('halal')
+      ? `<span class="status-tag ${r.halal ? 'status-safe' : 'status-unsafe'}">${r.halal ? 'Halal' : 'Not Halal'}</span>`
+      : '';
+
+    const contextLine = healthConds.length > 0
+      ? `<p style="font-size:12.5px; color: var(--ink-soft); margin: 0 0 2px;">Showing status for what you've selected:</p>`
+      : `<p style="font-size:12.5px; color: var(--ink-soft); margin: 0 0 2px;">No conditions selected — showing full breakdown:</p>`;
+
+    const ingredientsHtml = r.ingredients
+      ? `<div class="ingredients"><h4>Ingredients</h4><ul>${r.ingredients.map(i => `<li>${i}</li>`).join('')}</ul></div>`
+      : '';
+
+    return `<div class="search-result recipe">
+      <div class="recipe-top">
+        <div class="recipe-name-row">
+          <span class="recipe-avatar">${r.emoji || '🍽️'}</span>
+          <h3 class="recipe-name">${r.name}</h3>
+        </div>
+      </div>
+      <p class="recipe-desc">${r.desc}</p>
+      ${contextLine}
+      <div class="search-result-statuses">${statusChips}${halalChip}</div>
+      ${ingredientsHtml}
+    </div>`;
+  }).join('');
+
+  // Wire up the same click-to-expand behavior as the normal recipe cards
+  listEl.querySelectorAll('.search-result').forEach(row => {
+    row.querySelector('.recipe-top').addEventListener('click', () => {
+      row.classList.toggle('open');
+    });
+  });
+}
+
 function passes(recipe, cond) {
   if (cond === 'halal') return recipe.halal === true;
   return passesCondition(recipe, cond);
@@ -754,6 +1098,14 @@ function render() {
   const avoidBox = document.getElementById('avoid-box');
   const avoidList = document.getElementById('avoid-list');
   const transitionLine = document.getElementById('transition-line');
+
+  if (searchQuery) {
+    emptyEl.style.display = 'none';
+    avoidBox.classList.remove('show');
+    transitionLine.classList.remove('show');
+    renderSearchMode();
+    return;
+  }
 
   if (selected.size === 0) {
     emptyEl.style.display = 'block';
@@ -768,13 +1120,12 @@ function render() {
   const healthConds = [...selected].filter(c => c !== 'halal');
 
   if (healthConds.length > 0) {
-    avoidList.innerHTML = healthConds.map(c =>
-      `<div class="avoid-item">
-        <strong>${CONDITION_LABEL[c]}</strong>
-        <div>${AVOID_NOTES[c].avoid}</div>
-        <div style="color: var(--sage); margin-top: 4px;">${AVOID_NOTES[c].instead}</div>
-      </div>`
-    ).join('');
+    const limitItems = [...new Set(healthConds.flatMap(c => AVOID_NOTES[c].limit))];
+    const chooseItems = [...new Set(healthConds.flatMap(c => AVOID_NOTES[c].choose))];
+    avoidList.innerHTML = `
+      <div class="avoid-line"><strong style="color: var(--brick);">Limit:</strong> ${limitItems.join(', ')}</div>
+      <div class="avoid-line"><strong style="color: #256B3A;">Eat more of:</strong> ${chooseItems.join(', ')}</div>
+    `;
     avoidBox.classList.add('show');
     transitionLine.classList.add('show');
   } else {
@@ -857,9 +1208,9 @@ function render() {
         </div>
         <div class="tags">${tagsHtml}</div>
       </div>
+      ${anyModified && r.note ? `<p class="recipe-subtitle">Modified: ${r.note}</p>` : ''}
       <p class="recipe-desc">${r.desc} <span class="chevron" style="display:inline;">&#9656; tap for ingredients</span></p>
       ${nutritionHtml}
-      ${anyModified && r.note ? `<p class="mod-note">${r.note}</p>` : ''}
       ${ingredientsHtml}
     `;
 
@@ -870,6 +1221,11 @@ function render() {
     listEl.appendChild(row);
   });
 }
+
+document.getElementById('search-input').addEventListener('input', (e) => {
+  searchQuery = e.target.value.trim().toLowerCase();
+  render();
+});
 
 render();
 </script>
