@@ -1058,8 +1058,8 @@ const recipes = [
   {
     name: "Manggang Hilaw at Bagoong",
     desc: "Green mango with shrimp paste dip — a small portion goes a long way with the bagoong.",
-    status: { pd:'safe', htn:'unsafe', chol:'safe', ckd:'unsafe', uric:'caution' },
-    note: "Use a very small amount of bagoong, or swap in a salt-free chili-vinegar dip instead.",
+    status: { pd:'safe', htn:'modified', chol:'safe', ckd:'modified', uric:'modified' },
+    note: "Use a salt-free chili-vinegar dip instead of bagoong — this keeps the flavor without the sodium and purine load.",
     halal: true,
     emoji: "🥭",
     nutrition: { kcal:80, carbs:15, sugar:8 },
@@ -1427,6 +1427,11 @@ function renderSearchMode() {
       ? `<div class="ingredients"><h4>Ingredients</h4><ul>${r.ingredients.map(i => `<li>${i}</li>`).join('')}</ul></div>`
       : '';
 
+    const anyModifiedInSearch = condsToShow.some(c => r.status[c] === 'modified');
+    const noteHtml = r.note
+      ? `<p class="recipe-subtitle" style="padding-left:0;">${anyModifiedInSearch ? 'Modified' : 'Note'}: ${r.note}</p>`
+      : '';
+
     return `<div class="search-result recipe">
       <div class="recipe-top">
         <div class="recipe-name-row">
@@ -1435,6 +1440,7 @@ function renderSearchMode() {
         </div>
       </div>
       <p class="recipe-desc">${r.desc}</p>
+      ${noteHtml}
       ${contextLine}
       <div class="search-result-statuses">${statusChips}${halalChip}</div>
       ${ingredientsHtml}
@@ -1570,7 +1576,7 @@ function render() {
         </div>
         <div class="tags">${tagsHtml}</div>
       </div>
-      ${anyModified && r.note ? `<p class="recipe-subtitle">Modified: ${r.note}</p>` : ''}
+      ${r.note ? `<p class="recipe-subtitle">${anyModified ? 'Modified' : 'Note'}: ${r.note}</p>` : ''}
       <p class="recipe-desc">${r.desc} <span class="chevron" style="display:inline;">&#9656; tap for ingredients</span></p>
       ${nutritionHtml}
       ${ingredientsHtml}
