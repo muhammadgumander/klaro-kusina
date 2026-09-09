@@ -133,6 +133,13 @@
 </div>
 
 <script>
+// Prefill the dish name if arriving from a search result
+const urlParams = new URLSearchParams(window.location.search);
+const prefill = urlParams.get('dish');
+if (prefill) {
+  document.getElementById('dish').value = prefill;
+}
+
 document.getElementById('suggest-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const form = e.target;
