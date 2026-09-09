@@ -412,7 +412,7 @@
 
 <div class="wrap">
 
-  <div class="picker">
+  <div class="picker" id="picker-section">
     <p class="picker-label">I'm managing:</p>
     <div class="pills" id="pills">
       <label class="pill" data-cond="pd">
@@ -448,7 +448,7 @@
     </div>
   </div>
 
-  <div class="search-box">
+  <div class="search-box" id="search-section">
     <input type="text" class="search-input" id="search-input" placeholder="Search a dish — e.g. Sisig, Adobo, Lechon">
   </div>
 
@@ -473,7 +473,7 @@
   <footer>
     Recipes are a starting point for everyday planning, not medical advice. Diabetics on insulin or with strict carb targets, and anyone with CKD, should confirm portions with their doctor or dietitian — this app tags dishes at the recipe level, not by exact gram counts.
     <br><br>
-    This is a growing list, not a complete one — a dish not appearing here means it hasn't been reviewed yet, not that it's been checked and found unsafe.
+    Have a dish in mind? <a href="./suggest.html" style="color: var(--sage); font-weight:600;">Suggest it here →</a>
   </footer>
 
 </div>
@@ -504,7 +504,6 @@ const AVOID_NOTES = {
   }
 };
 
-// Which nutrient(s) matter for each condition, and how to derive a level for it
 const CONDITION_NUTRIENT = {
   htn: { label: "Sodium" },
   chol: { label: "Saturated Fat" },
@@ -1380,6 +1379,7 @@ pillsEl.querySelectorAll('.pill').forEach(pill => {
   });
 });
 
+
 function passesCondition(recipe, cond) {
   const s = recipe.status[cond];
   return s === 'safe' || s === 'modified';
@@ -1392,7 +1392,9 @@ function renderSearchMode() {
 
   if (matches.length === 0) {
     listEl.innerHTML = `<div class="search-empty">
-      We haven't reviewed <strong>"${searchQuery}"</strong> yet — that doesn't mean it's unsafe, we just haven't gotten to it. Message me to suggest it and I'll add it soon.
+      We haven't reviewed <strong>"${searchQuery}"</strong> yet — that doesn't mean it's unsafe, we just haven't gotten to it.
+      <br><br>
+      <a href="./suggest.html?dish=${encodeURIComponent(searchQuery)}" style="color: var(--sage); font-weight:600;">Suggest "${searchQuery}" →</a>
     </div>`;
     return;
   }
@@ -1548,18 +1550,18 @@ function render() {
 
     const chips = [];
     if (healthConds.includes('pd') && r.nutrition) {
-      chips.push(['Carbs', capToStatus(numLevel(r.nutrition.carbs, 10, 25))]);
-      chips.push(['Sugar', capToStatus(numLevel(r.nutrition.sugar, 5, 10))]);
+      chips.push(['Carbs', capToStatus(numLevel(r.nutrition.carbs, 10, 25)), r.nutrition.carbs + 'g']);
+      chips.push(['Sugar', capToStatus(numLevel(r.nutrition.sugar, 5, 10)), r.nutrition.sugar + 'g']);
     }
     ['htn', 'chol', 'ckd', 'uric'].forEach(c => {
       if (healthConds.includes(c)) {
         const lvl = statusToLevel(r.status[c]);
-        chips.push([CONDITION_NUTRIENT[c].label, lvl]);
+        chips.push([CONDITION_NUTRIENT[c].label, lvl, null]);
       }
     });
 
     const nutritionHtml = chips.length > 0
-      ? `<div class="nutrition-strip">${chips.map(([label, lvl]) =>
+      ? `<div class="nutrition-strip">${chips.map(([label, lvl, exact]) =>
           `<span class="level-tag level-${lvl}">${label}: ${cap(lvl)}</span>`
         ).join('')}</div>`
       : '';
